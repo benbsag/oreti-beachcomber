@@ -32,23 +32,23 @@ export default async function Page() {
         <h2 className="mb-3 text-base font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
           How the rating works
         </h2>
-        <ul className="flex flex-col gap-3 text-base leading-snug">
-          <li className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
-            <span className="w-fit shrink-0 rounded-full bg-emerald-600 px-3 py-0.5 text-sm font-black text-white">PRIME</span>
+        <ul className="grid grid-cols-[max-content_1fr] items-baseline gap-x-4 gap-y-3 text-base leading-snug">
+          <li className="contents">
+            <span className="w-fit rounded-full bg-emerald-600 px-3 py-0.5 text-sm font-black text-white">PRIME</span>
             <span>
               Onshore wind (blowing in from the SW–W), peak swell over {SWELL_PRIME_MIN} m out of the S–SW,
               and a low tide between {dayStart} and {dayEnd}.
             </span>
           </li>
-          <li className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
-            <span className="w-fit shrink-0 rounded-full bg-amber-500 px-3 py-0.5 text-sm font-black text-stone-950">MODERATE</span>
+          <li className="contents">
+            <span className="w-fit rounded-full bg-amber-500 px-3 py-0.5 text-sm font-black text-stone-950">MODERATE</span>
             <span>
               A low tide between {dayStart} and {dayEnd} with peak swell of at least {SWELL_MODERATE_MIN} m —
               promising, but short of all the PRIME marks.
             </span>
           </li>
-          <li className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
-            <span className="w-fit shrink-0 rounded-full bg-rose-700 px-3 py-0.5 text-sm font-black text-rose-50">POOR</span>
+          <li className="contents">
+            <span className="w-fit rounded-full bg-rose-700 px-3 py-0.5 text-sm font-black text-rose-50">POOR</span>
             <span>Peak swell under {SWELL_MODERATE_MIN} m, or no low tide during the day.</span>
           </li>
         </ul>

@@ -3,30 +3,36 @@
 import { useState } from 'react';
 import type { DayRecord, Score, Snapshot } from '@/lib/types';
 
-/** Score → high-contrast theme (readable in outdoor sunlight). */
+/** Score → muted theme that suits the nautical-navy background (still legible outdoors). */
 const THEME: Record<Score, { badge: string; pill: string; ring: string; label: string; blurb: string }> = {
   PRIME: {
-    badge: 'bg-emerald-500 text-white',
-    pill: 'bg-emerald-500 text-white',
-    ring: 'ring-emerald-500/40',
+    badge: 'bg-emerald-600 text-white',
+    pill: 'bg-emerald-600 text-white',
+    ring: 'ring-emerald-400/25',
     label: 'PRIME',
     blurb: 'Go now — wind & swell have driven debris ashore.',
   },
   MODERATE: {
-    badge: 'bg-amber-400 text-stone-950',
-    pill: 'bg-amber-400 text-stone-950',
-    ring: 'ring-amber-400/40',
+    badge: 'bg-amber-500 text-stone-950',
+    pill: 'bg-amber-500 text-stone-950',
+    ring: 'ring-amber-300/25',
     label: 'MODERATE',
     blurb: 'Worth a look if you are nearby.',
   },
   POOR: {
-    badge: 'bg-rose-600 text-white',
-    pill: 'bg-rose-600 text-white',
-    ring: 'ring-rose-600/40',
+    badge: 'bg-rose-700 text-rose-50',
+    pill: 'bg-rose-700 text-rose-50',
+    ring: 'ring-rose-500/25',
     label: 'POOR',
     blurb: 'Low potential today.',
   },
 };
+
+/** Meteorological bearing (degrees FROM) → 16-point compass abbreviation. */
+function degToCompass(deg: number): string {
+  const dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+  return dirs[Math.round(deg / 22.5) % 16];
+}
 
 function friendly(dateStr: string): string {
   const [y, m, d] = dateStr.split('-').map(Number);
@@ -47,9 +53,9 @@ export default function Dashboard({ history }: { history: Snapshot[] }) {
 
   if (history.length === 0) {
     return (
-      <section className="rounded-2xl border border-dashed border-slate-300 p-8 text-center dark:border-slate-700">
-        <p className="text-lg font-semibold">No readings yet</p>
-        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+      <section className="rounded-2xl border border-dashed border-sky-300/30 p-8 text-center">
+        <p className="text-xl font-semibold text-sky-50">No readings yet</p>
+        <p className="mt-2 text-base text-sky-200/80">
           The daily check runs at about 07:30 NZ time and records the day&apos;s score here.
         </p>
       </section>
@@ -64,23 +70,26 @@ export default function Dashboard({ history }: { history: Snapshot[] }) {
     <div className="flex flex-col gap-6">
       {/* Hero status */}
       <section className={`rounded-3xl p-6 text-center shadow-sm ring-8 ${theme.ring} ${theme.badge}`}>
-        <p className="text-xs font-bold uppercase tracking-widest opacity-90">
+        <p className="text-sm font-bold uppercase tracking-widest opacity-90">
           {isToday ? 'Today' : friendly(selected.date)}
         </p>
         <p className="mt-1 text-6xl font-black leading-none tracking-tight sm:text-7xl">{theme.label}</p>
-        <p className="mt-3 text-sm font-semibold opacity-95">{theme.blurb}</p>
+        <p className="mt-3 text-base font-semibold opacity-95">{theme.blurb}</p>
+        {selected.score === 'PRIME' && (
+          <p className="mt-2 text-lg font-black tracking-tight">Get out and find some logs! 🪵</p>
+        )}
 
         {selected.bestWalkWindow && (
           <div className="mt-5 rounded-2xl bg-black/15 px-4 py-3">
-            <p className="text-[0.7rem] font-bold uppercase tracking-widest opacity-90">Best walk window</p>
-            <p className="text-2xl font-black">{selected.bestWalkWindow}</p>
+            <p className="text-xs font-bold uppercase tracking-widest opacity-90">Best walk window</p>
+            <p className="text-3xl font-black">{selected.bestWalkWindow}</p>
           </div>
         )}
       </section>
 
       {/* Why + metrics */}
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-        <p className="text-base font-semibold leading-snug">{selected.why}</p>
+        <p className="text-lg font-semibold leading-snug">{selected.why}</p>
 
         <div className="mt-4 grid grid-cols-3 gap-3">
           <Metric
@@ -98,7 +107,7 @@ export default function Dashboard({ history }: { history: Snapshot[] }) {
             unit={selected.wind.speed != null ? 'km/h' : undefined}
             sub={
               selected.wind.direction != null
-                ? `from ${selected.wind.direction}° ${selected.wind.favourable ? 'onshore ✓' : 'not onshore'}`
+                ? `from ${degToCompass(selected.wind.direction)} ${selected.wind.favourable ? 'onshore ✓' : 'not onshore'}`
                 : 'unavailable'
             }
           />
@@ -121,7 +130,7 @@ export default function Dashboard({ history }: { history: Snapshot[] }) {
       {/* 3-day forecast */}
       {selected.forecast.length > 0 && (
         <section>
-          <h2 className="mb-2 px-1 text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          <h2 className="mb-2 px-1 text-base font-bold uppercase tracking-wide text-sky-200/90">
             3-day forecast
           </h2>
           <div className="grid grid-cols-3 gap-3">
@@ -155,7 +164,7 @@ export default function Dashboard({ history }: { history: Snapshot[] }) {
                 >
                   <span className="flex items-center gap-3">
                     <span className={`h-3 w-3 shrink-0 rounded-full ${t.pill}`} aria-hidden />
-                    <span className="font-semibold">{i === 0 ? 'Today' : friendly(h.date)}</span>
+                    <span className="text-lg font-semibold">{i === 0 ? 'Today' : friendly(h.date)}</span>
                     {hasFallback(h) && <span title="Fallback data used" aria-hidden>⚠️</span>}
                   </span>
                   <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${t.pill}`}>{t.label}</span>
@@ -172,12 +181,12 @@ export default function Dashboard({ history }: { history: Snapshot[] }) {
 function Metric({ label, value, unit, sub }: { label: string; value: string; unit?: string; sub?: string }) {
   return (
     <div className="rounded-xl bg-slate-50 p-3 text-center dark:bg-slate-800/60">
-      <p className="text-[0.65rem] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">{label}</p>
-      <p className="mt-1 text-lg font-black leading-tight">
+      <p className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">{label}</p>
+      <p className="mt-1 text-xl font-black leading-tight">
         {value}
-        {unit && <span className="ml-0.5 text-xs font-semibold text-slate-500 dark:text-slate-400">{unit}</span>}
+        {unit && <span className="ml-0.5 text-sm font-semibold text-slate-500 dark:text-slate-400">{unit}</span>}
       </p>
-      {sub && <p className="mt-0.5 text-[0.7rem] leading-tight text-slate-500 dark:text-slate-400">{sub}</p>}
+      {sub && <p className="mt-0.5 text-xs leading-tight text-slate-500 dark:text-slate-400">{sub}</p>}
     </div>
   );
 }
@@ -186,12 +195,12 @@ function ForecastCard({ day }: { day: DayRecord }) {
   const t = THEME[day.score];
   return (
     <div className="flex flex-col items-center gap-1.5 rounded-2xl border border-slate-200 bg-white p-3 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900">
-      <p className="text-xs font-semibold text-slate-600 dark:text-slate-300">{friendly(day.date)}</p>
+      <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">{friendly(day.date)}</p>
       <span className={`rounded-full px-2.5 py-0.5 text-xs font-black ${t.pill}`}>{t.label}</span>
-      <p className="text-[0.7rem] leading-tight text-slate-500 dark:text-slate-400">
+      <p className="text-xs leading-tight text-slate-500 dark:text-slate-400">
         {day.swell.peakHeight != null ? `${day.swell.peakHeight.toFixed(1)} m` : '—'}
       </p>
-      <p className="text-[0.7rem] leading-tight text-slate-500 dark:text-slate-400">
+      <p className="text-xs leading-tight text-slate-500 dark:text-slate-400">
         {day.tide.daytimeLowTideLocal ? `low ${day.tide.daytimeLowTideLocal}` : 'no day low'}
       </p>
     </div>

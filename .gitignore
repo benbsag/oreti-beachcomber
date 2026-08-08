@@ -31,3 +31,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# local editor/agent settings (keep .claude/launch.json shared)
+.claude/settings.local.json

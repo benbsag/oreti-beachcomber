@@ -33,8 +33,7 @@ export function formatMessage(snap: Snapshot): string {
     `${swellLine}, ${windLine}.\n` +
     `${tideLine}.${walk}\n\n` +
     `📊 3-day forecast at ${SITE_URL}\n\n` +
-    `Conditions are checked once a day.\n` +
-    `To unsubscribe, block this bot in Telegram.`
+    `Conditions are checked once a day.`
   );
 }
 

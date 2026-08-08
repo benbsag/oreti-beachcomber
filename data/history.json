@@ -25,7 +25,7 @@
       "method": "harmonic"
     },
     "bestWalkWindow": "3:22 PM – 6:00 PM",
-    "why": "Poor prospects: peak swell 1.2 m from 256°, offshore/cross wind 10 km/h from 77°, daytime low tide 16:52.",
+    "why": "Poor prospects: peak swell 1.2 m from WSW, offshore/cross wind 10 km/h from ENE, daytime low tide 16:52.",
     "dataStatus": {
       "swell": "ok",
       "wind": "ok",
@@ -58,7 +58,7 @@
           "method": "harmonic"
         },
         "bestWalkWindow": "4:19 PM – 6:00 PM",
-        "why": "Poor prospects: peak swell 1.2 m from 256°, offshore/cross wind 9 km/h from 103°, daytime low tide 17:49.",
+        "why": "Poor prospects: peak swell 1.2 m from WSW, offshore/cross wind 9 km/h from ESE, daytime low tide 17:49.",
         "dataStatus": {
           "swell": "ok",
           "wind": "ok",
@@ -91,7 +91,7 @@
           "method": "harmonic"
         },
         "bestWalkWindow": null,
-        "why": "Poor prospects: peak swell 1.2 m from 255°, offshore/cross wind 9 km/h from 87°, no low tide in the 08:00-18:00 window.",
+        "why": "Poor prospects: peak swell 1.2 m from WSW, offshore/cross wind 9 km/h from E, no low tide in the 08:00-18:00 window.",
         "dataStatus": {
           "swell": "ok",
           "wind": "ok",
@@ -124,7 +124,7 @@
           "method": "harmonic"
         },
         "bestWalkWindow": null,
-        "why": "Poor prospects: peak swell 1.1 m from 255°, offshore/cross wind 13 km/h from 59°, no low tide in the 08:00-18:00 window.",
+        "why": "Poor prospects: peak swell 1.1 m from WSW, offshore/cross wind 13 km/h from ENE, no low tide in the 08:00-18:00 window.",
         "dataStatus": {
           "swell": "ok",
           "wind": "ok",

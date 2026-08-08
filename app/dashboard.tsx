@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { degToCompass } from '@/lib/compass';
 import type { DayRecord, Score, Snapshot } from '@/lib/types';
 
 /** Score → muted theme that suits the nautical-navy background (still legible outdoors). */
@@ -27,12 +28,6 @@ const THEME: Record<Score, { badge: string; pill: string; ring: string; label: s
     blurb: 'Low potential today.',
   },
 };
-
-/** Meteorological bearing (degrees FROM) → 16-point compass abbreviation. */
-function degToCompass(deg: number): string {
-  const dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
-  return dirs[Math.round(deg / 22.5) % 16];
-}
 
 function friendly(dateStr: string): string {
   const [y, m, d] = dateStr.split('-').map(Number);

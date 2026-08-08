@@ -22,6 +22,7 @@ import {
   WALK_WINDOW_HALF_MIN,
   DAYTIME_WINDOW,
 } from '@/lib/config';
+import { degToCompass } from '@/lib/compass';
 import { local12h, localDateStr, localMidnightUtc } from '@/lib/time';
 import type { SwellSeries } from '@/lib/sources/swell';
 import type { WindSeries } from '@/lib/sources/wind';
@@ -103,13 +104,13 @@ export function walkWindow(low: Date): string {
   return `${local12h(new Date(start))} – ${local12h(new Date(end))}`;
 }
 
-function buildWhy(score: Score, swell: SwellSummary, wind: WindSummary, tide: TideResult['summary']): string {
+export function buildWhy(score: Score, swell: SwellSummary, wind: WindSummary, tide: TideResult['summary']): string {
   const parts: string[] = [];
 
   if (swell.peakHeight == null) {
     parts.push('swell data unavailable');
   } else {
-    const dir = swell.direction != null ? ` from ${swell.direction}°${swell.favourableDirection ? ' (S/SW)' : ''}` : '';
+    const dir = swell.direction != null ? ` from ${degToCompass(swell.direction)}` : '';
     parts.push(`peak swell ${swell.peakHeight.toFixed(1)} m${dir}`);
   }
 
@@ -117,7 +118,8 @@ function buildWhy(score: Score, swell: SwellSummary, wind: WindSummary, tide: Ti
     parts.push('wind data unavailable');
   } else {
     const label = wind.favourable ? 'onshore' : 'offshore/cross';
-    parts.push(`${label} wind ${Math.round(wind.speed)} km/h from ${wind.direction}°`);
+    const dir = wind.direction != null ? ` from ${degToCompass(wind.direction)}` : '';
+    parts.push(`${label} wind ${Math.round(wind.speed)} km/h${dir}`);
   }
 
   if (tide.daytimeLowTide && tide.daytimeLowTideLocal) {

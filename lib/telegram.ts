@@ -5,6 +5,7 @@
  */
 
 import { LOCATION, SITE_URL } from '@/lib/config';
+import { degToCompass } from '@/lib/compass';
 import { friendlyDate } from '@/lib/time';
 import type { Snapshot } from '@/lib/types';
 
@@ -21,7 +22,7 @@ export function formatMessage(snap: Snapshot): string {
   const w = snap.wind;
   const swellLine =
     s.peakHeight != null
-      ? `Swell ${s.peakHeight.toFixed(1)} m${s.direction != null ? ` from ${s.direction}°` : ''}`
+      ? `Swell ${s.peakHeight.toFixed(1)} m${s.direction != null ? ` from ${degToCompass(s.direction)}` : ''}`
       : 'Swell data unavailable';
   const windLine = w.speed != null ? `${w.favourable ? 'onshore' : 'cross/offshore'} wind ${Math.round(w.speed)} km/h` : 'wind n/a';
   const tideLine = snap.tide.daytimeLowTideLocal ? `Low tide ${snap.tide.daytimeLowTideLocal}` : 'No daytime low';

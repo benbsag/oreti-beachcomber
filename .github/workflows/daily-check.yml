@@ -1,0 +1,59 @@
+name: Daily beachcombing check
+
+# Computes today's score (+3-day forecast), commits it to data/history.json,
+# and sends a Telegram alert ONLY on a PRIME day. See README for setup.
+
+on:
+  schedule:
+    # GitHub cron is UTC. 30 18 * * * is ~07:30 NZDT (summer) / ~06:30 NZST (winter).
+    - cron: '30 18 * * *'
+    # DST safety net for an exact ~07:30 year-round: uncomment this AND set
+    # EXACT_LOCAL_HOUR below. Both runs fire, but each early-exits unless the
+    # local hour is 07, so exactly one does the work per day.
+    # - cron: '30 19 * * *'
+  workflow_dispatch: {}
+
+# Least privilege: only the history commit needs write access.
+permissions:
+  contents: write
+
+# Never run two daily checks at once (avoids commit races).
+concurrency:
+  group: daily-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run daily check
+        run: npm run daily-check
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
+          # Uncomment together with the second cron above for exact local timing.
+          # EXACT_LOCAL_HOUR: '7'
+
+      - name: Commit history if changed
+        run: |
+          if git diff --quiet -- data/history.json; then
+            echo "No history change to commit."
+          else
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/history.json
+            git commit -m "chore: record daily beachcombing snapshot [skip ci]"
+            git push
+          fi

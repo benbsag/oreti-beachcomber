@@ -97,7 +97,7 @@ export default function Dashboard({ history }: { history: Snapshot[] }) {
             value={selected.swell.peakHeight != null ? `${selected.swell.peakHeight.toFixed(1)} m` : '—'}
             sub={
               selected.swell.direction != null
-                ? `from ${selected.swell.direction}°${selected.swell.favourableDirection ? ' ✓' : ''}`
+                ? `from ${degToCompass(selected.swell.direction)}${selected.swell.favourableDirection ? ' ✓' : ''}`
                 : 'unavailable'
             }
           />
@@ -167,7 +167,7 @@ export default function Dashboard({ history }: { history: Snapshot[] }) {
                     <span className="text-lg font-semibold">{i === 0 ? 'Today' : friendly(h.date)}</span>
                     {hasFallback(h) && <span title="Fallback data used" aria-hidden>⚠️</span>}
                   </span>
-                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${t.pill}`}>{t.label}</span>
+                  <span className={`rounded-full px-3 py-0.5 text-sm font-bold ${t.pill}`}>{t.label}</span>
                 </button>
               </li>
             );
@@ -181,12 +181,12 @@ export default function Dashboard({ history }: { history: Snapshot[] }) {
 function Metric({ label, value, unit, sub }: { label: string; value: string; unit?: string; sub?: string }) {
   return (
     <div className="rounded-xl bg-slate-50 p-3 text-center dark:bg-slate-800/60">
-      <p className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">{label}</p>
-      <p className="mt-1 text-xl font-black leading-tight">
+      <p className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">{label}</p>
+      <p className="mt-1 text-2xl font-black leading-tight">
         {value}
         {unit && <span className="ml-0.5 text-sm font-semibold text-slate-500 dark:text-slate-400">{unit}</span>}
       </p>
-      {sub && <p className="mt-0.5 text-xs leading-tight text-slate-500 dark:text-slate-400">{sub}</p>}
+      {sub && <p className="mt-1 text-sm leading-snug text-slate-500 dark:text-slate-400">{sub}</p>}
     </div>
   );
 }
@@ -195,12 +195,12 @@ function ForecastCard({ day }: { day: DayRecord }) {
   const t = THEME[day.score];
   return (
     <div className="flex flex-col items-center gap-1.5 rounded-2xl border border-slate-200 bg-white p-3 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900">
-      <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">{friendly(day.date)}</p>
-      <span className={`rounded-full px-2.5 py-0.5 text-xs font-black ${t.pill}`}>{t.label}</span>
-      <p className="text-xs leading-tight text-slate-500 dark:text-slate-400">
+      <p className="text-base font-semibold text-slate-600 dark:text-slate-300">{friendly(day.date)}</p>
+      <span className={`rounded-full px-3 py-0.5 text-sm font-black ${t.pill}`}>{t.label}</span>
+      <p className="text-sm leading-tight text-slate-500 dark:text-slate-400">
         {day.swell.peakHeight != null ? `${day.swell.peakHeight.toFixed(1)} m` : '—'}
       </p>
-      <p className="text-xs leading-tight text-slate-500 dark:text-slate-400">
+      <p className="text-sm leading-tight text-slate-500 dark:text-slate-400">
         {day.tide.daytimeLowTideLocal ? `low ${day.tide.daytimeLowTideLocal}` : 'no day low'}
       </p>
     </div>

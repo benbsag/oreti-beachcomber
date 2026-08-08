@@ -12,6 +12,9 @@ export const LOCATION = {
   timezone: 'Pacific/Auckland',
 } as const;
 
+/** Public dashboard URL, linked from the Telegram alert. */
+export const SITE_URL = 'https://oreti-beachcomber.vercel.app/';
+
 /** Swell height thresholds, in metres (peak swell over the driving window). */
 export const SWELL_PRIME_MIN = 2.5;
 export const SWELL_MODERATE_MIN = 1.5;

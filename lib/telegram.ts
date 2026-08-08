@@ -4,7 +4,7 @@
  * bot token must never reach the client.
  */
 
-import { LOCATION } from '@/lib/config';
+import { LOCATION, SITE_URL } from '@/lib/config';
 import { friendlyDate } from '@/lib/time';
 import type { Snapshot } from '@/lib/types';
 
@@ -32,7 +32,9 @@ export function formatMessage(snap: Snapshot): string {
     `📅 ${friendlyDate(snap.date)}\n\n` +
     `${swellLine}, ${windLine}.\n` +
     `${tideLine}.${walk}\n\n` +
-    `Conditions are checked once a day.`
+    `📊 3-day forecast at ${SITE_URL}\n\n` +
+    `Conditions are checked once a day.\n` +
+    `To unsubscribe, block this bot in Telegram.`
   );
 }
 

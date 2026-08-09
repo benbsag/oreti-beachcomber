@@ -1,25 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Driftwood log on the beach">
   <rect width="512" height="512" rx="112" fill="#0b3a5b"/>
-  <g fill="none" stroke="#efe3c8" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+  <g fill="none" stroke="#efe3c8" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
     <!-- sand / debris marks around the log -->
-    <path d="M104 356 L206 362"/>
-    <path d="M232 388 L372 392"/>
-    <path d="M404 300 L436 318 L404 336"/>
+    <path d="M104 360 L206 366"/>
+    <path d="M232 392 L372 396"/>
+    <path d="M402 300 L436 320 L402 340"/>
     <!-- the driftwood log, tilted slightly -->
-    <g transform="rotate(-8 256 256)">
-      <!-- log body (capsule) -->
-      <path d="M150 202 L360 202 A54 54 0 0 1 360 310 L150 310 A54 54 0 0 1 150 202 Z"/>
+    <g transform="rotate(-7 256 256)">
+      <!-- log body -->
+      <path d="M158 214 L352 214 A48 48 0 0 1 352 310 L158 310 A48 48 0 0 1 158 214 Z"/>
       <!-- cut-end growth rings on the right face -->
-      <path d="M360 216 A40 40 0 0 1 360 296" stroke-width="12"/>
-      <path d="M360 235 A21 21 0 0 1 360 277" stroke-width="12"/>
-      <circle cx="360" cy="256" r="6"/>
+      <path d="M352 228 A34 34 0 0 1 352 296"/>
+      <path d="M352 244 A20 20 0 0 1 352 280"/>
+      <circle cx="352" cy="262" r="5"/>
       <!-- wood grain along the body -->
-      <path d="M182 236 q68 -15 128 -6"/>
-      <path d="M186 278 q58 12 116 4"/>
-      <!-- branch stub on top -->
-      <path d="M234 204 L234 170"/>
-      <path d="M234 170 L219 154"/>
-      <path d="M234 170 L249 155"/>
+      <path d="M188 244 q66 -14 118 -6"/>
+      <path d="M192 282 q56 12 108 3"/>
+      <!-- broken forked branch on top -->
+      <path d="M232 215 L237 181"/>
+      <path d="M237 181 L224 166"/>
+      <path d="M237 181 L251 170"/>
     </g>
   </g>
 </svg>

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Driftwood log on the beach">
-  <rect width="512" height="512" rx="112" fill="#0b3a5b"/>
-  <style>.driftwood path{stroke:#efe3c8}</style>
+  <rect width="512" height="512" rx="112" fill="#6b0626"/>
+  <style>.driftwood path{stroke:#fed404}</style>
   <g class="driftwood" transform="translate(-90.1 -88.4) scale(0.635)">
 <path fill="none" opacity="1.000000" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.000000"
 	d="

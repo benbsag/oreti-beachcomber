@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  /* Nautical navy page background in both schemes. Foreground stays scheme-aware
-     so text inside the white (light) / slate-900 (dark) cards keeps contrast;
-     text placed directly on the navy is explicitly lightened in the markup. */
-  --background: #0b3a5b;
-  --foreground: #0f172a;
+  /* Maroon page with yellow ink in both schemes. Cards are darker maroon
+     surfaces (set in the markup) so the yellow foreground carries throughout —
+     the theme is deliberately fixed, not scheme-dependent. */
+  --background: #6b0626;
+  --foreground: #fed404;
 }
 
 @theme inline {
@@ -13,13 +13,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-rubik);
   --font-display: var(--font-bungee);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #082b44;
-    --foreground: #e8f0f7;
-  }
 }
 
 body {

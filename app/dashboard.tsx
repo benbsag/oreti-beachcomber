@@ -196,7 +196,7 @@ function ForecastCard({ day }: { day: DayRecord }) {
         {day.swell.peakHeight != null ? `${day.swell.peakHeight.toFixed(1)} m` : '—'}
       </p>
       <p className="text-sm leading-tight text-slate-500 dark:text-slate-400">
-        {day.tide.daytimeLowTideLocal ? `low ${day.tide.daytimeLowTideLocal}` : 'no day low'}
+        {day.tide.daytimeLowTideLocal ? `low ${day.tide.daytimeLowTideLocal}` : 'no daytime low tide'}
       </p>
     </div>
   );

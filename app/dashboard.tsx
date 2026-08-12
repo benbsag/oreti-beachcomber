@@ -1,50 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { degToCompass } from '@/lib/compass';
-import type { DayRecord, Score, Snapshot } from '@/lib/types';
+import { THEME, friendly, hasFallback } from '@/lib/display';
+import type { DayRecord, Snapshot } from '@/lib/types';
 
-/** Score → theme. Every score shares one muted-maroon pill with yellow ink:
-    the rating is read from the word, not from a traffic-light colour. */
-const PILL = 'bg-[#873a53] text-[#fed404]';
-const RING = 'ring-[#fed404]/20';
-const THEME: Record<Score, { badge: string; pill: string; ring: string; label: string; blurb: string }> = {
-  PRIME: {
-    badge: PILL,
-    pill: PILL,
-    ring: RING,
-    label: 'PRIME',
-    blurb: 'Go now — wind & swell have driven debris ashore.',
-  },
-  MODERATE: {
-    badge: PILL,
-    pill: PILL,
-    ring: RING,
-    label: 'MODERATE',
-    blurb: 'Worth a look if you are nearby.',
-  },
-  POOR: {
-    badge: PILL,
-    pill: PILL,
-    ring: RING,
-    label: 'POOR',
-    blurb: 'Low potential today.',
-  },
-};
-
-function friendly(dateStr: string): string {
-  const [y, m, d] = dateStr.split('-').map(Number);
-  return new Date(Date.UTC(y, m - 1, d, 12)).toLocaleDateString('en-NZ', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short',
-    timeZone: 'UTC',
-  });
-}
-
-function hasFallback(rec: DayRecord): boolean {
-  return rec.dataStatus.swell !== 'ok' || rec.dataStatus.wind !== 'ok' || rec.dataStatus.tide === 'fallback' || rec.dataStatus.tide === 'failed';
-}
+/** How many recent days the home page lists before the "Older" link. */
+const RECENT_DAYS = 3;
 
 export default function Dashboard({ history }: { history: Snapshot[] }) {
   const [selectedDate, setSelectedDate] = useState<string>(history[0]?.date ?? '');
@@ -63,6 +26,8 @@ export default function Dashboard({ history }: { history: Snapshot[] }) {
   const selected = history.find((h) => h.date === selectedDate) ?? history[0];
   const isToday = selected.date === history[0].date;
   const theme = THEME[selected.score];
+  const recent = history.slice(0, RECENT_DAYS);
+  const lastPrime = history.find((h) => h.score === 'PRIME') ?? null;
 
   return (
     <div className="flex flex-col gap-6">
@@ -145,9 +110,10 @@ export default function Dashboard({ history }: { history: Snapshot[] }) {
           History
         </h2>
         <ul className="flex flex-col gap-2">
-          {history.map((h, i) => {
+          {recent.map((h) => {
             const t = THEME[h.score];
             const active = h.date === selected.date;
+            const isFirst = h.date === history[0].date;
             return (
               <li key={h.date}>
                 <button
@@ -162,7 +128,7 @@ export default function Dashboard({ history }: { history: Snapshot[] }) {
                 >
                   <span className="flex items-center gap-3">
                     <span className={`h-3 w-3 shrink-0 rounded-full ${t.pill}`} aria-hidden />
-                    <span className="text-lg font-semibold">{i === 0 ? 'Today' : friendly(h.date)}</span>
+                    <span className="text-lg font-semibold">{isFirst ? 'Today' : friendly(h.date)}</span>
                     {hasFallback(h) && <span title="Fallback data used" aria-hidden>⚠️</span>}
                   </span>
                   <span className={`rounded-full px-3 py-0.5 text-sm font-bold ${t.pill}`}>{t.label}</span>
@@ -171,6 +137,49 @@ export default function Dashboard({ history }: { history: Snapshot[] }) {
             );
           })}
         </ul>
+        {history.length > RECENT_DAYS && (
+          <Link
+            href="/history"
+            className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-[#fed404]/15 bg-[#54041b] px-4 py-3 text-base font-semibold text-[#fed404]/85 transition hover:bg-[#450316]"
+          >
+            Older <span aria-hidden>→</span>
+          </Link>
+        )}
+      </section>
+
+      {/* Last prime day */}
+      <section className="rounded-2xl border border-[#fed404]/15 bg-[#54041b] p-5 shadow-sm">
+        <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-[#fed404]/70">
+          Last prime day
+        </h2>
+        {lastPrime ? (
+          <div>
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-2xl font-black">{friendly(lastPrime.date)}</span>
+              <span className={`rounded-full px-3 py-0.5 text-sm font-black ${THEME.PRIME.pill}`}>PRIME</span>
+            </div>
+            <div className="mt-4 grid grid-cols-3 gap-3">
+              <Metric
+                label="Swell"
+                value={lastPrime.swell.peakHeight != null ? `${lastPrime.swell.peakHeight.toFixed(1)} m` : '—'}
+                sub={lastPrime.swell.direction != null ? `from ${degToCompass(lastPrime.swell.direction)}` : 'unavailable'}
+              />
+              <Metric
+                label="Wind"
+                value={lastPrime.wind.speed != null ? `${Math.round(lastPrime.wind.speed)}` : '—'}
+                unit={lastPrime.wind.speed != null ? 'km/h' : undefined}
+                sub={lastPrime.wind.direction != null ? `from ${degToCompass(lastPrime.wind.direction)}` : 'unavailable'}
+              />
+              <Metric
+                label="Low tide"
+                value={lastPrime.tide.daytimeLowTideLocal ?? (lastPrime.tide.lowTides[0] ?? '—')}
+                sub={lastPrime.tide.daytimeLowTide ? `daytime (${lastPrime.tide.window})` : `none in ${lastPrime.tide.window}`}
+              />
+            </div>
+          </div>
+        ) : (
+          <p className="text-lg font-semibold text-[#fed404]/85">Waiting for breeze</p>
+        )}
       </section>
     </div>
   );
@@ -199,6 +208,11 @@ function ForecastCard({ day }: { day: DayRecord }) {
       <span className={`rounded-full px-3 py-0.5 text-sm font-black ${t.pill}`}>{t.label}</span>
       <p className="text-sm leading-tight text-[#fed404]/70">
         {day.swell.peakHeight != null ? `${day.swell.peakHeight.toFixed(1)} m` : '—'}
+      </p>
+      <p className="text-sm leading-tight text-[#fed404]/70">
+        {day.wind.direction != null
+          ? `wind ${degToCompass(day.wind.direction)}${day.wind.favourable ? ' ✓' : ''}`
+          : '—'}
       </p>
       <p className="text-sm leading-tight text-[#fed404]/70">
         {day.tide.daytimeLowTideLocal ? `low ${day.tide.daytimeLowTideLocal}` : 'no daytime low tide'}

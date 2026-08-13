@@ -13,21 +13,21 @@ export const THEME: Record<Score, { badge: string; pill: string; ring: string; l
     pill: PILL,
     ring: RING,
     label: 'PRIME',
-    blurb: 'Go now — wind & swell have driven debris ashore.',
+    blurb: 'Firewood stack could grow today',
   },
   MODERATE: {
     badge: PILL,
     pill: PILL,
     ring: RING,
     label: 'MODERATE',
-    blurb: 'Worth a look if you are nearby.',
+    blurb: 'Fishing crates, maybe some gris',
   },
   POOR: {
     badge: PILL,
     pill: PILL,
     ring: RING,
     label: 'POOR',
-    blurb: 'Low potential today.',
+    blurb: 'Not much going on',
   },
 };
 

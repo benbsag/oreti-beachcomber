@@ -96,7 +96,7 @@ export default function Dashboard({ history }: { history: Snapshot[] }) {
           <h2 className="mb-2 px-1 text-base font-bold uppercase tracking-wide text-[#fed404]/90">
             3-day forecast
           </h2>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="flex flex-col gap-3">
             {selected.forecast.map((f) => (
               <ForecastCard key={f.date} day={f} />
             ))}
@@ -201,22 +201,38 @@ function Metric({ label, value, unit, sub }: { label: string; value: string; uni
 function ForecastCard({ day }: { day: DayRecord }) {
   const t = THEME[day.score];
   return (
-    <div className="flex flex-col items-center gap-1.5 rounded-2xl border border-[#fed404]/15 bg-[#54041b] p-3 text-center shadow-sm">
-      <p className="flex min-h-[3rem] items-center justify-center text-center text-base font-semibold text-[#fed404]/85">
-        {friendly(day.date)}
-      </p>
-      <span className={`rounded-full px-3 py-0.5 text-sm font-black ${t.pill}`}>{t.label}</span>
-      <p className="text-sm leading-tight text-[#fed404]/70">
-        {day.swell.peakHeight != null ? `${day.swell.peakHeight.toFixed(1)} m` : '—'}
-      </p>
-      <p className="text-sm leading-tight text-[#fed404]/70">
-        {day.wind.direction != null
-          ? `wind ${degToCompass(day.wind.direction)}${day.wind.favourable ? ' ✓' : ''}`
-          : '—'}
-      </p>
-      <p className="text-sm leading-tight text-[#fed404]/70">
-        {day.tide.daytimeLowTideLocal ? `low ${day.tide.daytimeLowTideLocal}` : 'no daytime low tide'}
-      </p>
+    <div className="rounded-2xl border border-[#fed404]/15 bg-[#54041b] p-4 shadow-sm">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-lg font-semibold text-[#fed404]/90">{friendly(day.date)}</p>
+        <span className={`rounded-full px-3 py-0.5 text-sm font-black ${t.pill}`}>{t.label}</span>
+      </div>
+      <div className="mt-3 grid grid-cols-3 gap-3">
+        <ForecastMetric
+          label="Swell"
+          value={day.swell.peakHeight != null ? `${day.swell.peakHeight.toFixed(1)} m` : '—'}
+          sub={day.swell.direction != null ? `from ${degToCompass(day.swell.direction)}` : undefined}
+        />
+        <ForecastMetric
+          label="Wind"
+          value={day.wind.direction != null ? degToCompass(day.wind.direction) : '—'}
+          sub={day.wind.direction != null ? (day.wind.favourable ? 'onshore ✓' : 'not onshore') : undefined}
+        />
+        <ForecastMetric
+          label="Low tide"
+          value={day.tide.daytimeLowTideLocal ?? '—'}
+          sub={day.tide.daytimeLowTideLocal ? 'daytime' : 'none in day'}
+        />
+      </div>
+    </div>
+  );
+}
+
+function ForecastMetric({ label, value, sub }: { label: string; value: string; sub?: string }) {
+  return (
+    <div className="rounded-xl bg-[#450316] p-3 text-center">
+      <p className="text-xs font-bold uppercase tracking-widest text-[#fed404]/70">{label}</p>
+      <p className="mt-1 text-xl font-black leading-tight">{value}</p>
+      {sub && <p className="mt-0.5 text-sm leading-snug text-[#fed404]/70">{sub}</p>}
     </div>
   );
 }

@@ -94,14 +94,21 @@ export function summariseWind(series: WindSeries, dateStr: string): { summary: W
   };
 }
 
-/** Best walk window: centred on the daytime low tide, clipped to daytime hours. */
+/** Best walk window: centred on the daytime low tide, clipped to daytime hours.
+    When both ends share a meridiem it's shown once, e.g. "8:05 – 11:06 AM". */
 export function walkWindow(low: Date): string {
   const dayStr = localDateStr(low);
   const dayStart = localMidnightUtc(dayStr).getTime() + DAYTIME_WINDOW.startHour * 3600 * 1000;
   const dayEnd = localMidnightUtc(dayStr).getTime() + DAYTIME_WINDOW.endHour * 3600 * 1000;
   const start = Math.max(dayStart, low.getTime() - WALK_WINDOW_HALF_MIN * 60 * 1000);
   const end = Math.min(dayEnd, low.getTime() + WALK_WINDOW_HALF_MIN * 60 * 1000);
-  return `${local12h(new Date(start))} – ${local12h(new Date(end))}`;
+  const startStr = local12h(new Date(start));
+  const endStr = local12h(new Date(end));
+  const meridiem = /\s+(AM|PM)$/i;
+  const startM = startStr.match(meridiem)?.[1];
+  const endM = endStr.match(meridiem)?.[1];
+  const startShown = startM && endM && startM === endM ? startStr.replace(meridiem, '') : startStr;
+  return `${startShown} – ${endStr}`;
 }
 
 export function buildWhy(score: Score, swell: SwellSummary, wind: WindSummary, tide: TideResult['summary']): string {

@@ -27,8 +27,10 @@ export const SWELL_MODERATE_MIN = 1.5;
  */
 export const ONSHORE_WIND_FROM = { min: 200, max: 290 }; // SSW -> WNW
 
-/** Favourable swell arrives FROM the S -> SW sector. */
-export const FAVOURABLE_SWELL_FROM = { min: 170, max: 230 }; // S -> SW
+/** Favourable swell arrives FROM the S -> WSW sector. The upper bound is the
+    WSW/W compass boundary (258.75°) so a strong swell out of the WSW still
+    counts as favourable. */
+export const FAVOURABLE_SWELL_FROM = { min: 170, max: 258.75 }; // S -> WSW
 
 /** A "daytime" low tide falls within these local (Pacific/Auckland) hours. */
 export const DAYTIME_WINDOW = { startHour: 8, endHour: 18 };

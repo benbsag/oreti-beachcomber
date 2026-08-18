@@ -10,8 +10,8 @@
       "peakTimeLocal": "9:00 AM"
     },
     "wind": {
-      "speed": 19.3,
-      "direction": 240,
+      "speed": 19.6,
+      "direction": 241,
       "favourable": true
     },
     "tide": {
@@ -25,7 +25,7 @@
       "method": "harmonic"
     },
     "bestWalkWindow": "11:06 AM – 2:06 PM",
-    "why": "Worth a look: peak swell 1.7 m from WSW, onshore wind 19 km/h from WSW, daytime low tide 12:36.",
+    "why": "Worth a look: peak swell 1.7 m from WSW, onshore wind 20 km/h from WSW, daytime low tide 12:36.",
     "dataStatus": {
       "swell": "ok",
       "wind": "ok",
@@ -43,8 +43,8 @@
           "peakTimeLocal": "9:00 AM"
         },
         "wind": {
-          "speed": 14.5,
-          "direction": 252,
+          "speed": 15.1,
+          "direction": 253,
           "favourable": true
         },
         "tide": {
@@ -76,9 +76,9 @@
           "peakTimeLocal": "12:00 PM"
         },
         "wind": {
-          "speed": 14.3,
+          "speed": 14.9,
           "direction": 290,
-          "favourable": true
+          "favourable": false
         },
         "tide": {
           "lowTides": [
@@ -91,7 +91,7 @@
           "method": "harmonic"
         },
         "bestWalkWindow": "1:07 – 4:07 PM",
-        "why": "Worth a look: peak swell 1.7 m from WSW, onshore wind 14 km/h from WNW, daytime low tide 14:37.",
+        "why": "Worth a look: peak swell 1.7 m from WSW, offshore/cross wind 15 km/h from WNW, daytime low tide 14:37.",
         "dataStatus": {
           "swell": "ok",
           "wind": "ok",
@@ -109,8 +109,8 @@
           "peakTimeLocal": "12:00 AM"
         },
         "wind": {
-          "speed": 18,
-          "direction": 332,
+          "speed": 18.8,
+          "direction": 330,
           "favourable": false
         },
         "tide": {
@@ -124,7 +124,7 @@
           "method": "harmonic"
         },
         "bestWalkWindow": "2:14 – 5:14 PM",
-        "why": "Worth a look: peak swell 1.5 m from W, offshore/cross wind 18 km/h from NNW, daytime low tide 15:44.",
+        "why": "Worth a look: peak swell 1.5 m from W, offshore/cross wind 19 km/h from NNW, daytime low tide 15:44.",
         "dataStatus": {
           "swell": "ok",
           "wind": "ok",
@@ -132,7 +132,7 @@
         }
       }
     ],
-    "generatedAt": "2026-08-18T19:06:13.106Z"
+    "generatedAt": "2026-08-18T19:45:45.228Z"
   },
   {
     "date": "2026-08-18",

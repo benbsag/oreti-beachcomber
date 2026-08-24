@@ -10,8 +10,8 @@
       "peakTimeLocal": "12:00 PM"
     },
     "wind": {
-      "speed": 32.6,
-      "direction": 286,
+      "speed": 32.2,
+      "direction": 287,
       "favourable": true
     },
     "tide": {
@@ -25,7 +25,7 @@
       "method": "harmonic"
     },
     "bestWalkWindow": null,
-    "why": "Poor prospects: peak swell 3.5 m from W, onshore wind 33 km/h from WNW, no low tide in the 08:00-18:00 window.",
+    "why": "Poor prospects: peak swell 3.5 m from W, onshore wind 32 km/h from WNW, no low tide in the 08:00-18:00 window.",
     "dataStatus": {
       "swell": "ok",
       "wind": "ok",
@@ -76,9 +76,9 @@
           "peakTimeLocal": "6:00 AM"
         },
         "wind": {
-          "speed": 22,
-          "direction": 193,
-          "favourable": false
+          "speed": 22.2,
+          "direction": 210,
+          "favourable": true
         },
         "tide": {
           "lowTides": [
@@ -91,7 +91,7 @@
           "method": "harmonic"
         },
         "bestWalkWindow": null,
-        "why": "Poor prospects: peak swell 2.4 m from WSW, offshore/cross wind 22 km/h from SSW, no low tide in the 08:00-18:00 window.",
+        "why": "Poor prospects: peak swell 2.4 m from WSW, onshore wind 22 km/h from SSW, no low tide in the 08:00-18:00 window.",
         "dataStatus": {
           "swell": "ok",
           "wind": "ok",
@@ -109,8 +109,8 @@
           "peakTimeLocal": "12:00 PM"
         },
         "wind": {
-          "speed": 19.3,
-          "direction": 106,
+          "speed": 18.1,
+          "direction": 95,
           "favourable": false
         },
         "tide": {
@@ -124,7 +124,7 @@
           "method": "harmonic"
         },
         "bestWalkWindow": null,
-        "why": "Poor prospects: peak swell 2.1 m from WSW, offshore/cross wind 19 km/h from ESE, no low tide in the 08:00-18:00 window.",
+        "why": "Poor prospects: peak swell 2.1 m from WSW, offshore/cross wind 18 km/h from E, no low tide in the 08:00-18:00 window.",
         "dataStatus": {
           "swell": "ok",
           "wind": "ok",
@@ -132,7 +132,7 @@
         }
       }
     ],
-    "generatedAt": "2026-08-24T19:09:12.043Z"
+    "generatedAt": "2026-08-24T19:50:16.827Z"
   },
   {
     "date": "2026-08-24",

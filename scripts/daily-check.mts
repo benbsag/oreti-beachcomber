@@ -7,33 +7,35 @@
  *
  * Alerting is PRIME-only. MODERATE and POOR are recorded but never pushed.
  *
- * Optional exactness: with EXACT_LOCAL_HOUR set (see the second cron in the
- * workflow), the script early-exits unless the local hour matches, so the two
- * DST-spanning cron times don't double-run.
+ * Idempotent per local day: the first run of the NZ day records today's
+ * snapshot and (if PRIME) alerts; any later run that same day is a no-op. This
+ * makes the job tolerant of GitHub's scheduling delays (a run that lands hours
+ * late still does the right thing) and lets the two DST-spanning cron times
+ * coexist without double-recording or double-alerting. Set FORCE_RUN=1
+ * (manual dispatch) to run regardless of whether today is already recorded.
  */
 
 import { buildSnapshot } from '@/lib/snapshot';
 import { readHistoryFromDisk, upsertSnapshot, writeHistoryToDisk } from '@/lib/history';
 import { sendPrimeAlert } from '@/lib/telegram';
 import { LOCATION } from '@/lib/config';
-import { localParts } from '@/lib/time';
+import { todayLocalDateStr } from '@/lib/time';
 
 async function main(): Promise<void> {
-  // Optional guard so a second cron (DST safety net) doesn't produce a duplicate run.
-  const exact = process.env.EXACT_LOCAL_HOUR;
-  if (exact) {
-    const hour = localParts(new Date()).hour;
-    if (hour !== Number(exact)) {
-      console.log(`Local hour ${hour} != EXACT_LOCAL_HOUR ${exact}; skipping this run.`);
-      return;
-    }
+  const today = todayLocalDateStr(new Date());
+  const existing = await readHistoryFromDisk();
+
+  // Guard against duplicate work/alerts from the DST safety-net cron or a
+  // delayed retry: skip if today's NZ date is already recorded (unless forced).
+  if (!process.env.FORCE_RUN && existing.some((h) => h.date === today)) {
+    console.log(`${today} already recorded — nothing to do.`);
+    return;
   }
 
   console.log(`Assessing ${LOCATION.name} (${LOCATION.timezone})...`);
   const snapshot = await buildSnapshot();
 
-  const history = await readHistoryFromDisk();
-  await writeHistoryToDisk(upsertSnapshot(history, snapshot));
+  await writeHistoryToDisk(upsertSnapshot(existing, snapshot));
   console.log(`Recorded ${snapshot.date}: ${snapshot.score} — ${snapshot.why}`);
 
   if (snapshot.score === 'PRIME') {

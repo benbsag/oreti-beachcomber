@@ -5,10 +5,12 @@ name: Daily beachcombing check
 
 on:
   schedule:
-    # GitHub cron is UTC. Two runs bracket the DST boundary so exactly one lands
-    # at 07:30 local year-round; EXACT_LOCAL_HOUR below makes the other early-exit.
-    #   30 18 UTC -> 07:30 NZDT (summer, UTC+13) / 06:30 NZST (winter) — runs in summer
-    #   30 19 UTC -> 08:30 NZDT (summer)          / 07:30 NZST (winter) — runs in winter
+    # GitHub cron is UTC and best-effort — scheduled runs are often delayed by
+    # minutes to hours. Two early-morning NZ crons bracket the DST boundary; the
+    # daily-check script is idempotent per NZ day, so whichever fires first does
+    # the work and the other is a no-op. A late run still records the right day.
+    #   30 18 UTC -> 07:30 NZDT (summer, UTC+13) / 06:30 NZST (winter)
+    #   30 19 UTC -> 08:30 NZDT (summer)          / 07:30 NZST (winter)
     - cron: '30 18 * * *'
     - cron: '30 19 * * *'
   workflow_dispatch: {}
@@ -43,10 +45,9 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
-          # Locks SCHEDULED runs to 07:30 local: whichever cron lands on local hour
-          # 07 does the work, the other early-exits. Empty for manual dispatch so a
-          # workflow_dispatch always does real work regardless of the hour.
-          EXACT_LOCAL_HOUR: ${{ github.event_name == 'schedule' && '7' || '' }}
+          # A manual dispatch always does real work (re-records today, re-alerts);
+          # scheduled runs rely on the script's per-day idempotency guard instead.
+          FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
 
       - name: Commit history if changed
         run: |

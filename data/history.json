@@ -1,5 +1,139 @@
 [
   {
+    "date": "2026-10-29",
+    "score": "MODERATE",
+    "swell": {
+      "peakHeight": 3.5,
+      "direction": 260,
+      "period": 10.1,
+      "favourableDirection": false,
+      "peakTimeLocal": "1:00 PM"
+    },
+    "wind": {
+      "speed": 32.3,
+      "direction": 293,
+      "favourable": false
+    },
+    "tide": {
+      "lowTides": [
+        "10:54",
+        "23:18"
+      ],
+      "daytimeLowTide": true,
+      "daytimeLowTideLocal": "10:54",
+      "window": "08:00-18:00",
+      "method": "harmonic"
+    },
+    "bestWalkWindow": "9:24 AM – 12:24 PM",
+    "why": "Worth a look: peak swell 3.5 m from W, offshore/cross wind 32 km/h from WNW, daytime low tide 10:54.",
+    "dataStatus": {
+      "swell": "ok",
+      "wind": "ok",
+      "tide": "ok"
+    },
+    "forecast": [
+      {
+        "date": "2026-10-30",
+        "score": "MODERATE",
+        "swell": {
+          "peakHeight": 3.5,
+          "direction": 260,
+          "period": 10.1,
+          "favourableDirection": false,
+          "peakTimeLocal": "1:00 PM"
+        },
+        "wind": {
+          "speed": 34.4,
+          "direction": 276,
+          "favourable": true
+        },
+        "tide": {
+          "lowTides": [
+            "11:46"
+          ],
+          "daytimeLowTide": true,
+          "daytimeLowTideLocal": "11:46",
+          "window": "08:00-18:00",
+          "method": "harmonic"
+        },
+        "bestWalkWindow": "10:16 AM – 1:16 PM",
+        "why": "Worth a look: peak swell 3.5 m from W, onshore wind 34 km/h from W, daytime low tide 11:46.",
+        "dataStatus": {
+          "swell": "ok",
+          "wind": "ok",
+          "tide": "ok"
+        }
+      },
+      {
+        "date": "2026-10-31",
+        "score": "PRIME",
+        "swell": {
+          "peakHeight": 2.9,
+          "direction": 255,
+          "period": 10.7,
+          "favourableDirection": true,
+          "peakTimeLocal": "7:00 PM"
+        },
+        "wind": {
+          "speed": 31.5,
+          "direction": 261,
+          "favourable": true
+        },
+        "tide": {
+          "lowTides": [
+            "00:13",
+            "12:43"
+          ],
+          "daytimeLowTide": true,
+          "daytimeLowTideLocal": "12:43",
+          "window": "08:00-18:00",
+          "method": "harmonic"
+        },
+        "bestWalkWindow": "11:13 AM – 2:13 PM",
+        "why": "Prime combing: peak swell 2.9 m from WSW, onshore wind 32 km/h from W, daytime low tide 12:43.",
+        "dataStatus": {
+          "swell": "ok",
+          "wind": "ok",
+          "tide": "ok"
+        }
+      },
+      {
+        "date": "2026-11-01",
+        "score": "PRIME",
+        "swell": {
+          "peakHeight": 2.9,
+          "direction": 255,
+          "period": 10.7,
+          "favourableDirection": true,
+          "peakTimeLocal": "7:00 PM"
+        },
+        "wind": {
+          "speed": 25.3,
+          "direction": 281,
+          "favourable": true
+        },
+        "tide": {
+          "lowTides": [
+            "01:13",
+            "13:45"
+          ],
+          "daytimeLowTide": true,
+          "daytimeLowTideLocal": "13:45",
+          "window": "08:00-18:00",
+          "method": "harmonic"
+        },
+        "bestWalkWindow": "12:15 – 3:15 PM",
+        "why": "Prime combing: peak swell 2.9 m from WSW, onshore wind 25 km/h from W, daytime low tide 13:45.",
+        "dataStatus": {
+          "swell": "ok",
+          "wind": "ok",
+          "tide": "ok"
+        }
+      }
+    ],
+    "generatedAt": "2026-10-28T22:44:17.032Z"
+  },
+  {
     "date": "2026-10-28",
     "score": "MODERATE",
     "swell": {
